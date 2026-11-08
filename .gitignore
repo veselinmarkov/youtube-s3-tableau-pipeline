@@ -1,0 +1,5 @@
+.aws-sam/
+__pycache__/
+.venv/
+client_secret*.json
+samconfig.toml

@@ -26,6 +26,8 @@ This lets the workflow in `.github/workflows/deploy.yml` deploy without stored A
    ```
    Only pushes to `main` of this repo can assume the role.
 
+   **Check the real `sub` format.** If the repo or account uses ID-based OIDC claims, the token's subject looks like `repo:<owner>@<owner-id>/<repo>@<repo-id>:ref:refs/heads/main` (for this repo: `repo:veselinmarkov@48570558/youtube-s3-tableau-pipeline@1450243215:ref:refs/heads/main`), and the console wizard's name-based value will not match. If assuming the role fails with `Not authorized to perform sts:AssumeRoleWithWebIdentity`, edit the trust policy to use the ID-based value above. Pinning to IDs is also safer, since it survives renames and can't be taken over by a new repo with the old name.
+
 ## 3. Give the role permissions
 `sam deploy` creates a CloudFormation stack containing a Lambda, an S3 bucket, an IAM role and an IAM user, plus a schedule.
 

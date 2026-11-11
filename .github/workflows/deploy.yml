@@ -33,18 +33,6 @@ jobs:
         with:
           python-version: "3.12"
       - uses: aws-actions/setup-sam@v2
-      # TEMPORARY: print OIDC token claims (not the token) to debug the trust policy
-      - name: Debug OIDC claims
-        run: |
-          TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | python3 -c "import json,sys;print(json.load(sys.stdin)['value'])")
-          python3 - "$TOKEN" <<'EOF'
-          import base64, json, sys
-          p = sys.argv[1].split(".")[1]
-          c = json.loads(base64.urlsafe_b64decode(p + "=" * (-len(p) % 4)))
-          for k in ("iss", "aud", "sub", "repository", "ref"):
-              print(k, "=", c.get(k))
-          EOF
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
@@ -54,4 +42,4 @@ jobs:
           sam deploy --stack-name youtube-pipeline --resolve-s3
           --capabilities CAPABILITY_IAM --no-confirm-changeset
           --no-fail-on-empty-changeset
-          --parameter-overrides ScheduleExpression="${{ vars.SCHEDULE_EXPRESSION || 'rate(1 hour)' }}"
+          --parameter-overrides 'ScheduleExpression="${{ vars.SCHEDULE_EXPRESSION || 'rate(1 hour)' }}"'

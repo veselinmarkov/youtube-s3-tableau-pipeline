@@ -59,7 +59,7 @@ def get_videos(data, ids: list[str]) -> list[dict]:
 
 ANALYTICS_METRICS = (
     "views,estimatedMinutesWatched,averageViewDuration,"
-    "likes,comments,subscribersGained,subscribersLost"
+    "likes,comments,subscribersGained,subscribersLost,engagedViews"
 )
 
 

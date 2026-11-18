@@ -3,3 +3,6 @@ __pycache__/
 .venv/
 client_secret*.json
 samconfig.toml
+csv/
+.DS_Store
+mac/bucket_name.txt
